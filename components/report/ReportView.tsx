@@ -126,6 +126,14 @@ export function ReportView({ report, shareUrl }: { report: Report; shareUrl: str
               </span>
             </div>
           </div>
+          {report.screenshotUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={report.screenshotUrl}
+              alt={`Capture d'écran de ${report.url}`}
+              className="h-[150px] w-[220px] shrink-0 rounded-xl border border-white/[.08] object-cover object-top"
+            />
+          ) : null}
         </div>
 
         {/* Category cards */}

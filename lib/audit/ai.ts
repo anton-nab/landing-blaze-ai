@@ -123,14 +123,32 @@ function getClient() {
   return cachedClient;
 }
 
-export async function generateReport(url: string, extracted: ExtractedPage): Promise<Report> {
+export async function generateReport(
+  url: string,
+  extracted: ExtractedPage,
+  screenshot?: Buffer | null,
+): Promise<Report> {
   const anthropic = getClient();
+
+  const userText = screenshot
+    ? `${buildAuditUserPrompt(extracted)}\n\nUne capture d'écran de la page (viewport desktop) est fournie ci-dessus. Utilise-la pour évaluer précisément la dimension "ux" — hiérarchie visuelle, densité, mise en page, ce qu'un visiteur voit réellement avant de scroller — en complément du texte et de la structure extraits.`
+    : buildAuditUserPrompt(extracted);
+
+  const content: Anthropic.Messages.MessageParam["content"] = screenshot
+    ? [
+        {
+          type: "image",
+          source: { type: "base64", media_type: "image/jpeg", data: screenshot.toString("base64") },
+        },
+        { type: "text", text: userText },
+      ]
+    : userText;
 
   const message = await anthropic.messages.create({
     model: process.env.ANTHROPIC_AUDIT_MODEL || "claude-sonnet-5",
     max_tokens: 4096,
     system: AUDIT_SYSTEM_PROMPT,
-    messages: [{ role: "user", content: buildAuditUserPrompt(extracted) }],
+    messages: [{ role: "user", content }],
     tools: [REPORT_TOOL],
     tool_choice: { type: "tool", name: "submit_report" },
   });
