@@ -19,13 +19,13 @@ export default async function HistoriquePage() {
           Vos derniers audits
         </h1>
         <p className="mb-9 text-sm text-muted-foreground">
-          Retrouvez chaque roast et suivez l&apos;évolution de vos scores.
+          Retrouvez chaque blaze et suivez l&apos;évolution de vos scores.
         </p>
 
         {audits.length === 0 ? (
           <div className="rounded-2xl border border-white/[.08] bg-white/[.02] p-10 text-center">
             <p className="mb-5 text-sm text-muted-foreground">
-              Aucun audit pour l&apos;instant — lancez votre premier roast.
+              Aucun audit pour l&apos;instant — lancez votre premier blaze.
             </p>
             <Link
               href="/"

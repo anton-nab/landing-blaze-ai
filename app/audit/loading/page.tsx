@@ -76,7 +76,7 @@ function LoadingContent() {
           ) : (
             <>
               <Loader2 className="h-[18px] w-[18px] animate-spin text-brand" strokeWidth={2.4} />
-              <span className="text-[15px] font-semibold text-white">Roast en cours…</span>
+              <span className="text-[15px] font-semibold text-white">Blaze en cours…</span>
             </>
           )}
         </div>

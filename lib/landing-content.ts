@@ -31,7 +31,7 @@ export const FEATURES = [
   },
   {
     num: "02",
-    title: "Roast du copywriting",
+    title: "Blaze du copywriting",
     body: "Headline, sous-titres, ton, longueur des phrases : l'IA relève ce qui endort le lecteur et propose des reformulations.",
   },
   {
@@ -69,7 +69,7 @@ export const PLANS: Plan[] = [
   {
     name: "Free",
     monthlyPrice: 0,
-    tagline: "Pour tester le roast.",
+    tagline: "Pour tester le blaze.",
     popular: false,
     feats: [
       "1 audit par mois",
@@ -136,7 +136,7 @@ export const REVIEWS = [
     role: "Growth marketer · B2B SaaS",
     stars: 5,
     quote:
-      "Le roast de ma headline était brutal mais juste. Réécrite en 10 minutes, +18 % de clics sur le CTA la semaine suivante.",
+      "Le blaze de ma headline était brutal mais juste. Réécrite en 10 minutes, +18 % de clics sur le CTA la semaine suivante.",
     initials: "CF",
     gradient: "from-[#FF5C28] to-[#FF9D5C]",
   },
@@ -154,7 +154,7 @@ export const REVIEWS = [
     role: "Freelance CRO",
     stars: 5,
     quote:
-      "Je lance un roast avant chaque call client. Le rapport sert de base de discussion — mes devis passent beaucoup mieux.",
+      "Je lance un blaze avant chaque call client. Le rapport sert de base de discussion — mes devis passent beaucoup mieux.",
     initials: "IK",
     gradient: "from-[#0091FF] to-[#5CBEFF]",
   },

@@ -75,7 +75,7 @@ export function Hero() {
         </div>
 
         <h1 className="mx-auto mt-[26px] mb-[18px] max-w-[820px] text-[clamp(38px,6vw,62px)] font-extrabold leading-[1.05] tracking-[-.035em] text-balance text-white">
-          Votre landing page mérite un roast honnête.
+          Votre landing page mérite un blaze honnête.
         </h1>
         <p className="mx-auto mb-9 max-w-[560px] text-[17px] leading-[1.6] text-pretty text-muted-foreground">
           Collez une URL. En 30 secondes, l&apos;IA note votre page sur 100, décortique

@@ -17,7 +17,7 @@ On te donne le contenu texte extrait d'une landing page, sa structure HTML simpl
 
 Règles de sortie :
 - JSON strict conforme au schéma fourni, rien d'autre.
-- Français. Ton direct, honnête, jamais méchant ("roast" constructif).
+- Français. Ton direct, honnête, jamais méchant ("blaze" constructif).
 - explanation : 1–2 phrases max, concrètes, citant des éléments réels de la page.
 - recommendations : exactement 3 par dimension, impératif, actionnables aujourd'hui.
 - topImprovements : les 5 actions au meilleur ratio impact/effort, triées par impact.
