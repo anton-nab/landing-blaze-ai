@@ -3,7 +3,7 @@ import { SecondaryTopBar } from "@/components/landing/SecondaryTopBar";
 import { listRecentAudits } from "@/lib/audit/get-audit";
 import { SCORE_COLOR } from "@/lib/audit/types";
 
-export const metadata = { title: "Historique — LandingRoast" };
+export const metadata = { title: "Historique — LandingBlaze" };
 
 export default async function HistoriquePage() {
   const audits = await listRecentAudits();

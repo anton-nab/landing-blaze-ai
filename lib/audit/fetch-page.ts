@@ -44,7 +44,7 @@ export async function fetchPageHtml(target: URL): Promise<{ html: string; finalU
     let res: Response;
     try {
       res = await fetch(current.href, {
-        headers: { "User-Agent": "LandingRoastBot/1.0 (+https://landingroast.ai)" },
+        headers: { "User-Agent": "LandingBlazeBot/1.0 (+https://landingblaze.ai)" },
         signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
         redirect: "manual",
       });

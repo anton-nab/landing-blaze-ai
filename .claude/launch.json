@@ -2,7 +2,7 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "landing-roast-dev",
+      "name": "landing-blaze-dev",
       "runtimeExecutable": "cmd",
       "runtimeArgs": ["/c", "npm", "run", "dev"],
       "port": 3000

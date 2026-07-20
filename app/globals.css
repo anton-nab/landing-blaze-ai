@@ -47,7 +47,7 @@
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
 
-  /* Landing Roast AI brand tokens */
+  /* LandingBlaze brand tokens */
   --color-brand: var(--brand);
   --color-brand-light: var(--brand-light);
   --color-brand-foreground: var(--brand-foreground);
@@ -58,7 +58,7 @@
   --color-surface-alt: var(--surface-alt);
 }
 
-/* Landing Roast AI is a single always-dark product — no light theme toggle. */
+/* LandingBlaze is a single always-dark product — no light theme toggle. */
 :root,
 .dark {
   --background: #09090b;

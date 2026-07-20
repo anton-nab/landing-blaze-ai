@@ -1,4 +1,4 @@
--- Schéma Supabase — Landing Roast AI
+-- Schéma Supabase — LandingBlaze
 create table public.audits (
   id uuid primary key default gen_random_uuid(),
   user_id uuid references auth.users(id) on delete set null, -- null = audit anonyme

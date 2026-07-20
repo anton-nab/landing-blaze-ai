@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "LandingRoast — Audit de landing page par IA",
+  title: "LandingBlaze — Audit de landing page par IA",
   description:
     "Collez une URL. En 30 secondes, l'IA note votre landing page sur 100, décortique headline, CTA, copywriting, UX — et vous dit exactement quoi corriger pour convertir plus.",
 };

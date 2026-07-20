@@ -27,7 +27,7 @@ function getUpstashLimiter(): Ratelimit | null {
   upstashLimiter = new Ratelimit({
     redis: new Redis({ url, token }),
     limiter: Ratelimit.slidingWindow(LIMIT, "30 d"),
-    prefix: "landingroast:audit",
+    prefix: "landingblaze:audit",
   });
   return upstashLimiter;
 }

@@ -122,7 +122,7 @@ export const FAQS = [
   },
   {
     q: "Quelle différence avec Lighthouse ?",
-    a: "Lighthouse mesure la technique (vitesse, bonnes pratiques). LandingRoast analyse la conversion : la force de votre message, vos CTA, votre preuve sociale — ce qui fait vraiment signer vos visiteurs.",
+    a: "Lighthouse mesure la technique (vitesse, bonnes pratiques). LandingBlaze analyse la conversion : la force de votre message, vos CTA, votre preuve sociale — ce qui fait vraiment signer vos visiteurs.",
   },
   {
     q: "Puis-je exporter ou partager le rapport ?",

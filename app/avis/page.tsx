@@ -1,7 +1,7 @@
 import { SecondaryTopBar } from "@/components/landing/SecondaryTopBar";
 import { REVIEWS } from "@/lib/landing-content";
 
-export const metadata = { title: "Avis — LandingRoast" };
+export const metadata = { title: "Avis — LandingBlaze" };
 
 export default function AvisPage() {
   return (

@@ -13,7 +13,7 @@ export function LogoMark({ className }: { className?: string }) {
       viewBox="0 0 24 24"
       className={cn("shrink-0", className)}
       role="img"
-      aria-label="LandingRoast"
+      aria-label="LandingBlaze"
     >
       <defs>
         <linearGradient id={gradId} x1="0" y1="0" x2="1" y2="1">
@@ -42,7 +42,7 @@ export function Wordmark({ className }: { className?: string }) {
   return (
     <div className={cn("flex items-center gap-[9px] text-[15px] font-bold tracking-[-.01em] text-white", className)}>
       <LogoMark className="h-[22px] w-[22px]" />
-      LandingRoast
+      LandingBlaze
     </div>
   );
 }
