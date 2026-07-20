@@ -61,45 +61,45 @@
 /* LandingBlaze is a single always-dark product — no light theme toggle. */
 :root,
 .dark {
-  --background: #09090b;
-  --foreground: #ededef;
-  --card: #0c0c0f;
-  --card-foreground: #ededef;
-  --popover: #0c0c0f;
-  --popover-foreground: #ededef;
+  --background: #0A0B12;
+  --foreground: #E7E8F5;
+  --card: #10111C;
+  --card-foreground: #E7E8F5;
+  --popover: #10111C;
+  --popover-foreground: #E7E8F5;
   --primary: #ffffff;
-  --primary-foreground: #09090b;
+  --primary-foreground: #0A0B12;
   --secondary: rgba(255, 255, 255, 0.06);
   --secondary-foreground: #ffffff;
   --muted: rgba(255, 255, 255, 0.04);
-  --muted-foreground: #a1a1aa;
+  --muted-foreground: #9599C0;
   --accent: rgba(255, 255, 255, 0.06);
   --accent-foreground: #ffffff;
-  --destructive: #f87171;
+  --destructive: #D9667A;
   --destructive-foreground: #ffffff;
   --border: rgba(255, 255, 255, 0.08);
   --input: rgba(255, 255, 255, 0.12);
-  --ring: #ff5c28;
+  --ring: #5B6EE8;
   --radius: 0.875rem;
 
   /* Brand */
-  --brand: #ff5c28;
-  --brand-light: #ff9d5c;
+  --brand: #5B6EE8;
+  --brand-light: #8B98F0;
   --brand-foreground: #ffffff;
-  --success: #30a46c;
-  --warning: #f5a623;
-  --danger: #f87171;
+  --success: #5FA98C;
+  --warning: #D9A054;
+  --danger: #D9667A;
   --surface: rgba(255, 255, 255, 0.02);
-  --surface-alt: #0c0c0f;
+  --surface-alt: #10111C;
 
-  --sidebar: #0c0c0f;
-  --sidebar-foreground: #ededef;
-  --sidebar-primary: #ff5c28;
+  --sidebar: #10111C;
+  --sidebar-foreground: #E7E8F5;
+  --sidebar-primary: #5B6EE8;
   --sidebar-primary-foreground: #ffffff;
   --sidebar-accent: rgba(255, 255, 255, 0.06);
   --sidebar-accent-foreground: #ffffff;
   --sidebar-border: rgba(255, 255, 255, 0.08);
-  --sidebar-ring: #ff5c28;
+  --sidebar-ring: #5B6EE8;
 }
 
 @layer base {
@@ -113,7 +113,7 @@
     @apply font-sans scroll-smooth;
   }
   ::selection {
-    background: rgba(255, 92, 40, 0.35);
+    background: rgba(91, 110, 232, 0.35);
   }
 }
 

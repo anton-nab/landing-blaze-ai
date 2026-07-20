@@ -17,9 +17,9 @@ export function LogoMark({ className }: { className?: string }) {
     >
       <defs>
         <linearGradient id={gradId} x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#FF7A3D" />
-          <stop offset="55%" stopColor="#FF5C28" />
-          <stop offset="100%" stopColor="#E24A1C" />
+          <stop offset="0%" stopColor="#7C89F5" />
+          <stop offset="55%" stopColor="#5B6EE8" />
+          <stop offset="100%" stopColor="#3F4FC4" />
         </linearGradient>
       </defs>
       <rect width="24" height="24" rx="7" fill={`url(#${gradId})`} />
@@ -32,7 +32,7 @@ export function LogoMark({ className }: { className?: string }) {
       {/* Inner core — offset right for a subtle flicker/asymmetry */}
       <path
         d="M12.6 9.2C11.2 11.2 10.2 12.7 10.2 14.6A2.4 2.4 0 0 0 15 14.6C15 12.7 14 11.2 12.6 9.2Z"
-        fill="#FFE3BE"
+        fill="#E3E8FF"
       />
     </svg>
   );

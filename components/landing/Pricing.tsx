@@ -61,14 +61,14 @@ export function Pricing() {
               <div className="text-[14px] font-semibold text-white">{plan.name}</div>
               <div className="my-3.5 flex items-baseline gap-1.5">
                 <span className="font-mono text-[38px] font-semibold text-white">{price}€</span>
-                <span className="text-[13px] text-[#71717A]">
+                <span className="text-[13px] text-[#6E7299]">
                   {plan.monthlyPrice === 0 ? "/ mois" : annual ? "/ mois, facturé à l'année" : "/ mois"}
                 </span>
               </div>
               <div className="mb-[22px] text-[13px] text-muted-foreground">{plan.tagline}</div>
               <div className="mb-7 flex flex-col gap-[11px]">
                 {plan.feats.map((feat) => (
-                  <div key={feat} className="flex items-start gap-2.5 text-[13.5px] leading-[1.45] text-[#D4D4D8]">
+                  <div key={feat} className="flex items-start gap-2.5 text-[13.5px] leading-[1.45] text-[#C7CBE8]">
                     <Check className="mt-0.5 h-[15px] w-[15px] shrink-0 text-success" strokeWidth={2.4} />
                     <span>{feat}</span>
                   </div>

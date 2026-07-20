@@ -6,7 +6,7 @@ export function SecondaryTopBar({ ctaLabel, ctaHref }: { ctaLabel: string; ctaHr
       <div className="mx-auto flex h-[60px] max-w-[1120px] items-center justify-between gap-4 px-6">
         <Link
           href="/"
-          className="whitespace-nowrap rounded-[8px] border border-white/10 bg-white/5 px-3 py-[7px] text-[13px] font-medium text-[#D4D4D8] hover:bg-white/10"
+          className="whitespace-nowrap rounded-[8px] border border-white/10 bg-white/5 px-3 py-[7px] text-[13px] font-medium text-[#C7CBE8] hover:bg-white/10"
         >
           ← Accueil
         </Link>

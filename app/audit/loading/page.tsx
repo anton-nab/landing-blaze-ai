@@ -80,7 +80,7 @@ function LoadingContent() {
             </>
           )}
         </div>
-        <div className="mb-[26px] overflow-hidden text-ellipsis whitespace-nowrap font-mono text-[12.5px] text-[#71717A]">
+        <div className="mb-[26px] overflow-hidden text-ellipsis whitespace-nowrap font-mono text-[12.5px] text-[#6E7299]">
           {url}
         </div>
 
@@ -122,7 +122,7 @@ function LoadingContent() {
                     >
                       {done ? <Check className="h-2.5 w-2.5" strokeWidth={3} /> : null}
                     </span>
-                    <span className={cn("text-[13.5px]", done ? "text-[#D4D4D8]" : active ? "text-white" : "text-[#52525B]")}>
+                    <span className={cn("text-[13.5px]", done ? "text-[#C7CBE8]" : active ? "text-white" : "text-[#4E5270]")}>
                       {label}
                     </span>
                   </div>

@@ -56,7 +56,7 @@ export default async function HistoriquePage() {
                   <div className="min-w-[220px] flex-1">
                     <div className="mb-1 flex flex-wrap items-baseline gap-2.5">
                       <span className="font-mono text-[13.5px] text-white">{host}</span>
-                      <span className="whitespace-nowrap text-[11.5px] text-[#52525B]">
+                      <span className="whitespace-nowrap text-[11.5px] text-[#4E5270]">
                         {new Date(audit.createdAt).toLocaleDateString("fr-FR", {
                           day: "numeric",
                           month: "short",

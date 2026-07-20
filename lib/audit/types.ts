@@ -37,7 +37,7 @@ export interface Report {
 }
 
 export const SCORE_COLOR = (s: number) =>
-  s >= 75 ? '#30A46C' : s >= 55 ? '#F5A623' : '#F87171';
+  s >= 75 ? '#5FA98C' : s >= 55 ? '#D9A054' : '#D9667A';
 
 export const GRADE = (s: number) =>
   s >= 80 ? 'Excellente base.' : s >= 65 ? 'Solide, mais perfectible.'

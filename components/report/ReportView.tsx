@@ -54,18 +54,18 @@ export function ReportView({ report, shareUrl }: { report: Report; shareUrl: str
           <div className="flex min-w-0 items-center gap-3">
             <Link
               href="/"
-              className="shrink-0 whitespace-nowrap rounded-[8px] border border-white/10 bg-white/5 px-3 py-[7px] text-[13px] font-medium text-[#D4D4D8] hover:bg-white/10"
+              className="shrink-0 whitespace-nowrap rounded-[8px] border border-white/10 bg-white/5 px-3 py-[7px] text-[13px] font-medium text-[#C7CBE8] hover:bg-white/10"
             >
               ← Accueil
             </Link>
-            <span className="overflow-hidden text-ellipsis whitespace-nowrap font-mono text-[12.5px] text-[#71717A]">
+            <span className="overflow-hidden text-ellipsis whitespace-nowrap font-mono text-[12.5px] text-[#6E7299]">
               {report.url}
             </span>
           </div>
           <div className="flex shrink-0 gap-2">
             <button
               onClick={copyLink}
-              className="inline-flex items-center gap-[7px] whitespace-nowrap rounded-[8px] border border-white/10 bg-white/5 px-3.5 py-2 text-[13px] font-semibold text-[#D4D4D8] hover:bg-white/10"
+              className="inline-flex items-center gap-[7px] whitespace-nowrap rounded-[8px] border border-white/10 bg-white/5 px-3.5 py-2 text-[13px] font-semibold text-[#C7CBE8] hover:bg-white/10"
             >
               <Share2 className="h-[13px] w-[13px]" strokeWidth={2.2} />
               {copied ? "Lien copié ✓" : "Partager"}
@@ -84,7 +84,7 @@ export function ReportView({ report, shareUrl }: { report: Report; shareUrl: str
         {/* Score hero */}
         <div
           className="flex flex-wrap items-center gap-12 rounded-[20px] border border-white/[.08] bg-white/[.02] p-10 animate-fade-up"
-          style={{ background: "radial-gradient(500px 260px at 20% 0%, rgba(255,92,40,.1), transparent), rgba(255,255,255,.02)" }}
+          style={{ background: "radial-gradient(500px 260px at 20% 0%, rgba(91, 110, 232,.1), transparent), rgba(255,255,255,.02)" }}
         >
           <div className="relative h-[196px] w-[196px] shrink-0">
             <svg width="196" height="196" viewBox="0 0 196 196">
@@ -103,7 +103,7 @@ export function ReportView({ report, shareUrl }: { report: Report; shareUrl: str
             </svg>
             <div className="absolute inset-0 flex flex-col items-center justify-center">
               <div className="font-mono text-[52px] font-semibold leading-none text-white">{shown}</div>
-              <div className="mt-1 text-xs text-[#71717A]">/ 100</div>
+              <div className="mt-1 text-xs text-[#6E7299]">/ 100</div>
             </div>
           </div>
           <div className="min-w-[280px] flex-1">
@@ -163,7 +163,7 @@ export function ReportView({ report, shareUrl }: { report: Report; shareUrl: str
                 <p className="mb-4 text-[13px] leading-relaxed text-muted-foreground">{c.explanation}</p>
                 <div className="flex flex-col gap-2 border-t border-white/[.06] pt-3.5">
                   {c.recommendations.map((r) => (
-                    <div key={r} className="flex items-start gap-2.5 text-[12.5px] leading-relaxed text-[#D4D4D8]">
+                    <div key={r} className="flex items-start gap-2.5 text-[12.5px] leading-relaxed text-[#C7CBE8]">
                       <span className="shrink-0 font-mono text-brand">→</span>
                       <span>{r}</span>
                     </div>
@@ -191,7 +191,7 @@ export function ReportView({ report, shareUrl }: { report: Report; shareUrl: str
                 </span>
                 <div className="min-w-[220px] flex-1">
                   <div className="mb-[3px] text-sm font-semibold text-white">{t.action}</div>
-                  <div className="text-[12.5px] text-[#71717A]">
+                  <div className="text-[12.5px] text-[#6E7299]">
                     {cat?.name ?? t.categoryKey} · score actuel {cat?.score ?? "—"}/100
                   </div>
                 </div>
@@ -215,19 +215,19 @@ export function ReportView({ report, shareUrl }: { report: Report; shareUrl: str
         <div className="rounded-2xl border border-white/[.08] bg-white/[.02] p-8">
           <div className="mb-7 flex flex-wrap gap-10">
             <div>
-              <div className="mb-1.5 text-xs text-[#71717A]">Conversion estimée actuelle</div>
+              <div className="mb-1.5 text-xs text-[#6E7299]">Conversion estimée actuelle</div>
               <div className="font-mono text-[30px] font-semibold text-white">
                 {report.conversion.currentPct}%
               </div>
             </div>
             <div>
-              <div className="mb-1.5 text-xs text-[#71717A]">Après corrections</div>
+              <div className="mb-1.5 text-xs text-[#6E7299]">Après corrections</div>
               <div className="font-mono text-[30px] font-semibold text-success">
                 {report.conversion.projectedPct}%
               </div>
             </div>
             <div>
-              <div className="mb-1.5 text-xs text-[#71717A]">Gain potentiel</div>
+              <div className="mb-1.5 text-xs text-[#6E7299]">Gain potentiel</div>
               <div className="font-mono text-[30px] font-semibold text-brand">
                 +{report.conversion.upliftPct}%
               </div>
@@ -246,11 +246,11 @@ export function ReportView({ report, shareUrl }: { report: Report; shareUrl: str
               style={{ width: `${Math.round((report.conversion.currentPct / 5) * 100)}%` }}
             />
           </div>
-          <div className="mt-2.5 flex justify-between text-[11.5px] text-[#71717A]">
+          <div className="mt-2.5 flex justify-between text-[11.5px] text-[#6E7299]">
             <span>Aujourd&apos;hui</span>
             <span>Potentiel après les 5 corrections prioritaires</span>
           </div>
-          <p className="mt-[22px] text-[12.5px] leading-relaxed text-[#71717A]">
+          <p className="mt-[22px] text-[12.5px] leading-relaxed text-[#6E7299]">
             Estimation basée sur les benchmarks de conversion par dimension. Les résultats réels
             dépendent de votre trafic et de votre offre.
           </p>

@@ -24,7 +24,7 @@ export default function AvisPage() {
               className="flex flex-col gap-4 rounded-2xl border border-white/[.08] bg-white/[.02] p-[26px] transition-colors duration-200 hover:border-white/20"
             >
               <div className="text-sm tracking-[2px] text-brand">{"★".repeat(rv.stars)}{"☆".repeat(5 - rv.stars)}</div>
-              <p className="flex-1 text-sm leading-relaxed text-[#D4D4D8]">« {rv.quote} »</p>
+              <p className="flex-1 text-sm leading-relaxed text-[#C7CBE8]">« {rv.quote} »</p>
               <div className="flex items-center gap-3 border-t border-white/[.06] pt-4">
                 <div
                   className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br ${rv.gradient} text-[12.5px] font-bold text-white`}
@@ -33,7 +33,7 @@ export default function AvisPage() {
                 </div>
                 <div>
                   <div className="text-[13px] font-semibold text-white">{rv.name}</div>
-                  <div className="text-xs text-[#71717A]">{rv.role}</div>
+                  <div className="text-xs text-[#6E7299]">{rv.role}</div>
                 </div>
               </div>
             </div>

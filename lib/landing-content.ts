@@ -138,7 +138,7 @@ export const REVIEWS = [
     quote:
       "Le blaze de ma headline était brutal mais juste. Réécrite en 10 minutes, +18 % de clics sur le CTA la semaine suivante.",
     initials: "CF",
-    gradient: "from-[#FF5C28] to-[#FF9D5C]",
+    gradient: "from-[#5B6EE8] to-[#8B98F0]",
   },
   {
     name: "Thomas Berger",
@@ -165,7 +165,7 @@ export const REVIEWS = [
     quote:
       "La partie copywriting est bluffante : elle a repéré notre tic du « nous » partout. On suit notre score à chaque itération.",
     initials: "MD",
-    gradient: "from-[#30A46C] to-[#6BD49E]",
+    gradient: "from-[#5FA98C] to-[#6BD49E]",
   },
   {
     name: "Sofia Almeida",
@@ -174,7 +174,7 @@ export const REVIEWS = [
     quote:
       "Enfin un outil qui parle conversion et pas seulement performance technique. Le score par dimension est très parlant.",
     initials: "SA",
-    gradient: "from-[#F5A623] to-[#FFD08A]",
+    gradient: "from-[#D9A054] to-[#FFD08A]",
   },
   {
     name: "Julien Weiss",
@@ -183,7 +183,7 @@ export const REVIEWS = [
     quote:
       "Les rapports en marque blanche vont changer notre process d'onboarding client. On vend l'audit comme produit d'appel.",
     initials: "JW",
-    gradient: "from-[#F87171] to-[#FCA5A5]",
+    gradient: "from-[#D9667A] to-[#FCA5A5]",
   },
 ] as const;
 

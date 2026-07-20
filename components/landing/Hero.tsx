@@ -49,7 +49,7 @@ export function Hero() {
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "radial-gradient(600px 320px at 50% -60px, rgba(255,92,40,.16), transparent 70%)",
+            "radial-gradient(600px 320px at 50% -60px, rgba(91, 110, 232,.16), transparent 70%)",
         }}
       />
       <div
@@ -86,7 +86,7 @@ export function Hero() {
         <form onSubmit={onSubmit} className="mx-auto max-w-[560px]">
           <div
             className="flex flex-wrap gap-2 rounded-[14px] border border-white/[.12] bg-white/[.04] p-2"
-            style={{ boxShadow: "0 20px 60px -20px rgba(255,92,40,.25)" }}
+            style={{ boxShadow: "0 20px 60px -20px rgba(91, 110, 232,.25)" }}
           >
             <input
               id={AUDIT_INPUT_ID}
@@ -97,7 +97,7 @@ export function Hero() {
               }}
               onKeyDown={onKeyDown}
               placeholder="https://votre-landing-page.com"
-              className="min-w-[220px] flex-1 bg-transparent px-3 py-2.5 font-mono text-[15px] text-white outline-none placeholder:text-[#52525B]"
+              className="min-w-[220px] flex-1 bg-transparent px-3 py-2.5 font-mono text-[15px] text-white outline-none placeholder:text-[#4E5270]"
             />
             <button
               type="submit"
@@ -107,7 +107,7 @@ export function Hero() {
             </button>
           </div>
           {err ? <div className="mt-2.5 text-[13px] text-danger">{err}</div> : null}
-          <div className="mt-3.5 text-[12.5px] text-[#71717A]">
+          <div className="mt-3.5 text-[12.5px] text-[#6E7299]">
             Gratuit · Sans carte bancaire · Résultat en ~30 s
           </div>
         </form>
@@ -135,12 +135,12 @@ function MiniPreview() {
     >
       <div className="flex items-baseline gap-1.5">
         <span className="font-mono text-[44px] font-semibold text-white">67</span>
-        <span className="text-[13px] text-[#71717A]">/100</span>
+        <span className="text-[13px] text-[#6E7299]">/100</span>
       </div>
       <div className="grid min-w-[260px] flex-1 grid-cols-2 gap-3.5 sm:grid-cols-4">
         {MINI_BARS.map((bar) => (
           <div key={bar.label}>
-            <div className="mb-1.5 text-[11px] text-[#71717A]">{bar.label}</div>
+            <div className="mb-1.5 text-[11px] text-[#6E7299]">{bar.label}</div>
             <div className="h-1 rounded-full bg-white/[.08]">
               <div
                 className="h-full rounded-full"

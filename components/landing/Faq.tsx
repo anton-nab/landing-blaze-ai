@@ -30,7 +30,7 @@ export function Faq() {
                 <span>{faq.q}</span>
                 <span
                   className={cn(
-                    "shrink-0 font-mono text-base text-[#71717A] transition-transform duration-200",
+                    "shrink-0 font-mono text-base text-[#6E7299] transition-transform duration-200",
                     open && "rotate-45",
                   )}
                 >
