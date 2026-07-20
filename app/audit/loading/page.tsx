@@ -39,12 +39,20 @@ function LoadingContent() {
       body: JSON.stringify({ url }),
     }).then(async (res) => {
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Une erreur est survenue.");
-      return data as { id: string };
+      return { status: res.status, data };
     });
 
     Promise.all([request, minDisplay])
-      .then(([data]) => {
+      .then(([{ status, data }]) => {
+        if (status === 429) {
+          // Quota gratuit atteint : direct vers la page de paiement (section Tarifs
+          // tant que le vrai checkout Stripe n'est pas branché — semaine 3).
+          router.replace("/#pricing");
+          return;
+        }
+        if (status >= 400) {
+          throw new Error(data.error || "Une erreur est survenue.");
+        }
         setStep(LOADING_STEPS.length);
         router.replace(`/audit/${data.id}`);
       })
