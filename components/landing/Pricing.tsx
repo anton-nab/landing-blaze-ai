@@ -1,13 +1,44 @@
 "use client";
 
 import { useState } from "react";
-import { Check } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Check, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { PLANS } from "@/lib/landing-content";
 import { focusAuditInput } from "@/lib/focus-audit-input";
 
 export function Pricing() {
+  const router = useRouter();
   const [annual, setAnnual] = useState(true);
+  const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
+  const [error, setError] = useState("");
+
+  async function checkout(planKey: "pro" | "agency") {
+    setError("");
+    setLoadingPlan(planKey);
+    try {
+      const res = await fetch("/api/stripe/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ plan: planKey, interval: annual ? "annual" : "monthly" }),
+      });
+      const data = await res.json();
+
+      if (res.status === 401) {
+        router.push("/inscription");
+        return;
+      }
+      if (!res.ok) {
+        setError(data.error || "Une erreur est survenue.");
+        setLoadingPlan(null);
+        return;
+      }
+      window.location.assign(data.url);
+    } catch {
+      setError("Une erreur est survenue. Réessayez.");
+      setLoadingPlan(null);
+    }
+  }
 
   return (
     <div id="pricing" className="mx-auto max-w-[1120px] px-6 py-[72px]">
@@ -38,11 +69,14 @@ export function Pricing() {
             Annuel · −20%
           </button>
         </div>
+        {error ? <p className="mt-4 text-[13px] text-danger">{error}</p> : null}
       </div>
 
       <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] items-stretch gap-5">
         {PLANS.map((plan) => {
           const price = annual ? Math.round(plan.monthlyPrice * 0.8) : plan.monthlyPrice;
+          const isPaid = plan.key === "pro" || plan.key === "agency";
+          const isLoading = loadingPlan === plan.key;
           return (
             <div
               key={plan.name}
@@ -75,14 +109,16 @@ export function Pricing() {
                 ))}
               </div>
               <button
-                onClick={focusAuditInput}
+                onClick={isPaid ? () => checkout(plan.key as "pro" | "agency") : focusAuditInput}
+                disabled={isLoading}
                 className={cn(
-                  "mt-auto rounded-[9px] py-[11px] text-[13.5px] font-semibold transition-[filter] hover:brightness-[1.15]",
+                  "mt-auto flex items-center justify-center gap-2 rounded-[9px] py-[11px] text-[13.5px] font-semibold transition-[filter] hover:brightness-[1.15] disabled:opacity-60",
                   plan.popular
                     ? "bg-brand text-white"
                     : "border border-white/[.14] bg-white/[.06] text-white",
                 )}
               >
+                {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
                 {plan.cta}
               </button>
             </div>

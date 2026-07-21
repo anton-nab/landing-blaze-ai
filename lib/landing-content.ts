@@ -57,6 +57,7 @@ export const FEATURES = [
 ] as const;
 
 export type Plan = {
+  key: "free" | "pro" | "agency";
   name: string;
   monthlyPrice: number;
   tagline: string;
@@ -67,6 +68,7 @@ export type Plan = {
 
 export const PLANS: Plan[] = [
   {
+    key: "free",
     name: "Free",
     monthlyPrice: 0,
     tagline: "Pour tester le blaze.",
@@ -80,6 +82,7 @@ export const PLANS: Plan[] = [
     cta: "Commencer gratuitement",
   },
   {
+    key: "pro",
     name: "Pro",
     monthlyPrice: 19,
     tagline: "Pour les makers et marketers.",
@@ -93,6 +96,7 @@ export const PLANS: Plan[] = [
     cta: "Passer en Pro",
   },
   {
+    key: "agency",
     name: "Agency",
     monthlyPrice: 49,
     tagline: "Pour les agences et équipes.",
@@ -103,7 +107,7 @@ export const PLANS: Plan[] = [
       "Rapports en marque blanche",
       "Accès API",
     ],
-    cta: "Contacter l'équipe",
+    cta: "Passer en Agency",
   },
 ];
 
