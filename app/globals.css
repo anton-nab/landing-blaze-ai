@@ -117,6 +117,30 @@
   }
 }
 
+/* Report PDF export (window.print()) — keep the dark theme + accent colors
+   instead of the browser's default "strip all backgrounds" print behavior. */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  html,
+  body {
+    background: #0a0b12 !important;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+  .print-avoid-break {
+    break-inside: avoid;
+  }
+  .print-only {
+    display: flex !important;
+  }
+}
+
+.print-only {
+  display: none;
+}
+
 @keyframes fade-up {
   from {
     opacity: 0;

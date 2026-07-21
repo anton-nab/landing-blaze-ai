@@ -59,7 +59,7 @@ export function ReportView({
 
   return (
     <>
-      <div className="sticky top-0 z-50 border-b border-white/[.06] bg-background/72 backdrop-blur-[14px]">
+      <div className="no-print sticky top-0 z-50 border-b border-white/[.06] bg-background/72 backdrop-blur-[14px]">
         <div className="mx-auto flex h-[60px] max-w-[1120px] items-center justify-between gap-4 px-6">
           <div className="flex min-w-0 items-center gap-3">
             <Link
@@ -99,9 +99,23 @@ export function ReportView({
       </div>
 
       <div className="mx-auto max-w-[1120px] px-6 pb-24 pt-12">
+        <div className="print-only mb-8 items-center justify-between gap-4 border-b border-white/[.08] pb-5">
+          <span className="text-[15px] font-bold tracking-[-.01em] text-white">LandingBlaze</span>
+          <div className="text-right">
+            <div className="font-mono text-[12.5px] text-[#6E7299]">{report.url}</div>
+            <div className="text-[11.5px] text-[#6E7299]">
+              {new Date(report.createdAt).toLocaleDateString("fr-FR", {
+                day: "numeric",
+                month: "long",
+                year: "numeric",
+              })}
+            </div>
+          </div>
+        </div>
+
         {/* Score hero */}
         <div
-          className="flex flex-wrap items-center gap-12 rounded-[20px] border border-white/[.08] bg-white/[.02] p-10 animate-fade-up"
+          className="print-avoid-break flex flex-wrap items-center gap-12 rounded-[20px] border border-white/[.08] bg-white/[.02] p-10 animate-fade-up"
           style={{ background: "radial-gradient(500px 260px at 20% 0%, rgba(91, 110, 232,.1), transparent), rgba(255,255,255,.02)" }}
         >
           <div className="relative h-[196px] w-[196px] shrink-0">
@@ -164,7 +178,7 @@ export function ReportView({
             return (
               <div
                 key={c.key}
-                className="rounded-2xl border border-white/[.08] bg-white/[.02] p-6 transition-[border-color,transform] duration-200 hover:-translate-y-0.5 hover:border-white/20"
+                className="print-avoid-break rounded-2xl border border-white/[.08] bg-white/[.02] p-6 transition-[border-color,transform] duration-200 hover:-translate-y-0.5 hover:border-white/20"
               >
                 <div className="mb-3.5 flex items-center justify-between">
                   <div className="text-[15px] font-semibold text-white">{c.name}</div>
@@ -274,7 +288,7 @@ export function ReportView({
         <h2 className="mb-[22px] mt-14 text-[22px] font-bold tracking-[-.02em] text-white">
           Estimated Conversion Impact
         </h2>
-        <div className="rounded-2xl border border-white/[.08] bg-white/[.02] p-8">
+        <div className="print-avoid-break rounded-2xl border border-white/[.08] bg-white/[.02] p-8">
           <div className="mb-7 flex flex-wrap gap-10">
             <div>
               <div className="mb-1.5 text-xs text-[#6E7299]">Conversion estimée actuelle</div>
