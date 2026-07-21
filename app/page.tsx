@@ -5,11 +5,17 @@ import { Features } from "@/components/landing/Features";
 import { Pricing } from "@/components/landing/Pricing";
 import { Faq } from "@/components/landing/Faq";
 import { Footer } from "@/components/landing/Footer";
+import { createClient } from "@/lib/supabase/server-client";
 
-export default function Home() {
+export default async function Home() {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   return (
     <>
-      <Nav />
+      <Nav user={user ? { email: user.email ?? "" } : null} />
       <Hero />
       <Why />
       <Features />

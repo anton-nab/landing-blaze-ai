@@ -31,3 +31,20 @@ create policy "insert own audits" on public.audits
 
 create policy "own profile" on public.profiles
   for select using (auth.uid() = id);
+
+-- Auto-crée une ligne profiles (plan='free') à chaque inscription Supabase Auth.
+-- Voir migrations/002_profile_on_signup.sql pour l'exécuter sur un projet existant.
+create function public.handle_new_user()
+returns trigger
+language plpgsql
+security definer set search_path = public
+as $$
+begin
+  insert into public.profiles (id) values (new.id);
+  return new;
+end;
+$$;
+
+create trigger on_auth_user_created
+  after insert on auth.users
+  for each row execute function public.handle_new_user();
