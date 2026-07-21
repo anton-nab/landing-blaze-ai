@@ -2,9 +2,10 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Share2 } from "lucide-react";
+import { Share2, Lock } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { SCORE_COLOR, type Report } from "@/lib/audit/types";
+import type { Plan } from "@/lib/auth/get-current-user";
 
 const RING_RADIUS = 84;
 const CIRCUMFERENCE = 2 * Math.PI * RING_RADIUS;
@@ -17,7 +18,16 @@ const IMPACT_STYLE = {
   low: "text-muted-foreground bg-white/[.06]",
 } as const;
 
-export function ReportView({ report, shareUrl }: { report: Report; shareUrl: string }) {
+export function ReportView({
+  report,
+  shareUrl,
+  plan,
+}: {
+  report: Report;
+  shareUrl: string;
+  plan: Plan;
+}) {
+  const isPro = plan === "pro" || plan === "agency";
   const [shown, setShown] = useState(0);
   const [ringOffset, setRingOffset] = useState(CIRCUMFERENCE);
   const [copied, setCopied] = useState(false);
@@ -63,6 +73,14 @@ export function ReportView({ report, shareUrl }: { report: Report; shareUrl: str
             </span>
           </div>
           <div className="flex shrink-0 gap-2">
+            {isPro ? (
+              <button
+                onClick={() => window.print()}
+                className="hidden whitespace-nowrap rounded-[8px] border border-white/10 bg-white/5 px-3.5 py-2 text-[13px] font-semibold text-[#C7CBE8] hover:bg-white/10 sm:inline-flex"
+              >
+                Exporter en PDF
+              </button>
+            ) : null}
             <button
               onClick={copyLink}
               className="inline-flex items-center gap-[7px] whitespace-nowrap rounded-[8px] border border-white/10 bg-white/5 px-3.5 py-2 text-[13px] font-semibold text-[#C7CBE8] hover:bg-white/10"
@@ -160,8 +178,20 @@ export function ReportView({ report, shareUrl }: { report: Report; shareUrl: str
                     style={{ width: `${c.score}%`, background: color }}
                   />
                 </div>
-                <p className="mb-4 text-[13px] leading-relaxed text-muted-foreground">{c.explanation}</p>
-                <div className="flex flex-col gap-2 border-t border-white/[.06] pt-3.5">
+                <p
+                  className={cn(
+                    "mb-4 text-[13px] leading-relaxed text-muted-foreground",
+                    !isPro && "select-none blur-[3px]",
+                  )}
+                >
+                  {c.explanation}
+                </p>
+                <div
+                  className={cn(
+                    "flex flex-col gap-2 border-t border-white/[.06] pt-3.5",
+                    !isPro && "pointer-events-none select-none blur-[3px]",
+                  )}
+                >
                   {c.recommendations.map((r) => (
                     <div key={r} className="flex items-start gap-2.5 text-[12.5px] leading-relaxed text-[#C7CBE8]">
                       <span className="shrink-0 font-mono text-brand">→</span>
@@ -173,13 +203,29 @@ export function ReportView({ report, shareUrl }: { report: Report; shareUrl: str
             );
           })}
         </div>
+        {!isPro ? (
+          <div className="mt-[18px] flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-brand/30 bg-brand/5 px-6 py-5">
+            <div className="flex items-center gap-3">
+              <Lock className="h-4 w-4 shrink-0 text-brand" />
+              <p className="text-[13px] text-[#C7CBE8]">
+                Débloquez l&apos;explication et les recommandations complètes des 8 dimensions.
+              </p>
+            </div>
+            <Link
+              href="/#pricing"
+              className="shrink-0 whitespace-nowrap rounded-[8px] bg-brand px-4 py-2 text-[13px] font-semibold text-white hover:brightness-110"
+            >
+              Passer en Pro
+            </Link>
+          </div>
+        ) : null}
 
-        {/* Top 5 */}
+        {/* Top 5 (Top 3 en Free) */}
         <h2 className="mb-[22px] mt-14 text-[22px] font-bold tracking-[-.02em] text-white">
-          Top 5 améliorations
+          {isPro ? "Top 5 améliorations" : "Top 3 améliorations"}
         </h2>
         <div className="overflow-hidden rounded-2xl border border-white/[.08]">
-          {report.topImprovements.map((t, i) => {
+          {(isPro ? report.topImprovements : report.topImprovements.slice(0, 3)).map((t, i) => {
             const cat = report.categories.find((c) => c.key === t.categoryKey);
             return (
               <div
@@ -206,6 +252,22 @@ export function ReportView({ report, shareUrl }: { report: Report; shareUrl: str
               </div>
             );
           })}
+          {!isPro ? (
+            <div className="flex flex-wrap items-center justify-between gap-4 bg-brand/5 px-6 py-[18px]">
+              <div className="flex items-center gap-3">
+                <Lock className="h-4 w-4 shrink-0 text-brand" />
+                <span className="text-[13px] text-[#C7CBE8]">
+                  2 corrections supplémentaires réservées au plan Pro.
+                </span>
+              </div>
+              <Link
+                href="/#pricing"
+                className="shrink-0 whitespace-nowrap rounded-[8px] bg-brand px-4 py-2 text-[13px] font-semibold text-white hover:brightness-110"
+              >
+                Passer en Pro
+              </Link>
+            </div>
+          ) : null}
         </div>
 
         {/* Conversion impact */}
