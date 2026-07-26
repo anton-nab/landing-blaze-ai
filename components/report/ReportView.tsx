@@ -6,6 +6,7 @@ import { Share2, Lock } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { SCORE_COLOR, type Report } from "@/lib/audit/types";
 import type { Plan } from "@/lib/auth/get-current-user";
+import { BlazeFixSection } from "./BlazeFixSection";
 
 const RING_RADIUS = 84;
 const CIRCUMFERENCE = 2 * Math.PI * RING_RADIUS;
@@ -22,10 +23,12 @@ export function ReportView({
   report,
   shareUrl,
   plan,
+  auditId,
 }: {
   report: Report;
   shareUrl: string;
   plan: Plan;
+  auditId: string;
 }) {
   const isPro = plan === "pro" || plan === "agency";
   const [shown, setShown] = useState(0);
@@ -331,6 +334,8 @@ export function ReportView({
             dépendent de votre trafic et de votre offre.
           </p>
         </div>
+
+        <BlazeFixSection auditId={auditId} isPro={isPro} />
       </div>
     </>
   );

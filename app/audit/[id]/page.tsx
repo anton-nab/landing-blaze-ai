@@ -15,5 +15,7 @@ export default async function AuditReportPage({
 
   const shareUrl = `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/audit/${audit.id}`;
 
-  return <ReportView report={audit.report} shareUrl={shareUrl} plan={user?.plan ?? "free"} />;
+  return (
+    <ReportView report={audit.report} shareUrl={shareUrl} plan={user?.plan ?? "free"} auditId={audit.id} />
+  );
 }
