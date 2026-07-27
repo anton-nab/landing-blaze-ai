@@ -13,7 +13,8 @@ export default async function AuditReportPage({
 
   if (!audit) notFound();
 
-  const shareUrl = `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/audit/${audit.id}`;
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  const shareUrl = audit.shareSlug ? `${siteUrl}/r/${audit.shareSlug}` : `${siteUrl}/audit/${audit.id}`;
 
   return (
     <ReportView report={audit.report} shareUrl={shareUrl} plan={user?.plan ?? "free"} auditId={audit.id} />

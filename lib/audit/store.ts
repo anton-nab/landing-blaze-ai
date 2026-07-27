@@ -5,6 +5,7 @@ export interface StoredAudit {
   url: string;
   report: Report;
   createdAt: number;
+  shareSlug?: string;
 }
 
 // Dev-only in-memory cache (survives HMR via globalThis, not process restarts).

@@ -11,7 +11,7 @@ export async function getAuditById(id: string): Promise<StoredAudit | null> {
 
   const { data, error } = await supabase
     .from("audits")
-    .select("id, url, report, created_at")
+    .select("id, url, report, created_at, share_slug")
     .eq("id", id)
     .single();
 
@@ -22,6 +22,28 @@ export async function getAuditById(id: string): Promise<StoredAudit | null> {
     url: data.url,
     report: data.report as Report,
     createdAt: new Date(data.created_at).getTime(),
+    shareSlug: data.share_slug ?? undefined,
+  };
+}
+
+export async function getAuditBySlug(slug: string): Promise<StoredAudit | null> {
+  const supabase = getSupabaseServiceClient();
+  if (!supabase) return null;
+
+  const { data, error } = await supabase
+    .from("audits")
+    .select("id, url, report, created_at, share_slug")
+    .eq("share_slug", slug)
+    .single();
+
+  if (error || !data) return null;
+
+  return {
+    id: data.id,
+    url: data.url,
+    report: data.report as Report,
+    createdAt: new Date(data.created_at).getTime(),
+    shareSlug: data.share_slug ?? undefined,
   };
 }
 
@@ -34,7 +56,7 @@ export async function listRecentAudits(limit = 8): Promise<StoredAudit[]> {
 
   const { data, error } = await supabase
     .from("audits")
-    .select("id, url, report, created_at")
+    .select("id, url, report, created_at, share_slug")
     .order("created_at", { ascending: false })
     .limit(limit);
 
@@ -45,5 +67,6 @@ export async function listRecentAudits(limit = 8): Promise<StoredAudit[]> {
     url: row.url,
     report: row.report as Report,
     createdAt: new Date(row.created_at).getTime(),
+    shareSlug: row.share_slug ?? undefined,
   }));
 }
