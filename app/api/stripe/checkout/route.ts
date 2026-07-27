@@ -3,6 +3,7 @@ import { getCurrentUser } from "@/lib/auth/get-current-user";
 import { getStripeClient } from "@/lib/stripe/client";
 import { getPriceId, type BillingPlan, type BillingInterval } from "@/lib/stripe/plans";
 import { createClient } from "@/lib/supabase/server-client";
+import { getPostHogClient } from "@/lib/posthog-server";
 
 export async function POST(req: NextRequest) {
   const user = await getCurrentUser();
@@ -50,6 +51,18 @@ export async function POST(req: NextRequest) {
       success_url: `${origin}/?checkout=success`,
       cancel_url: `${origin}/#pricing`,
     });
+
+    const posthog = getPostHogClient();
+    posthog.capture({
+      distinctId: user.id,
+      event: "checkout_started",
+      properties: {
+        plan,
+        interval,
+        price_id: priceId,
+      },
+    });
+    await posthog.flush();
 
     return NextResponse.json({ url: session.url });
   } catch (err) {

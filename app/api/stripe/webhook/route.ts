@@ -3,6 +3,7 @@ import type Stripe from "stripe";
 import { getStripeClient } from "@/lib/stripe/client";
 import { planFromPriceId } from "@/lib/stripe/plans";
 import { getSupabaseServiceClient } from "@/lib/supabase/server";
+import { getPostHogClient } from "@/lib/posthog-server";
 
 function customerIdOf(customer: string | Stripe.Customer | Stripe.DeletedCustomer | null): string | null {
   if (!customer) return null;
@@ -59,6 +60,28 @@ export async function POST(req: NextRequest) {
       if (plan && customerId && (subscription.status === "active" || subscription.status === "trialing")) {
         const { error } = await supabase.from("profiles").update({ plan }).eq("stripe_customer_id", customerId);
         if (error) console.error("[stripe/webhook] échec mise à jour plan", error);
+
+        if (event.type === "customer.subscription.created") {
+          const { data: profile } = await supabase
+            .from("profiles")
+            .select("id")
+            .eq("stripe_customer_id", customerId)
+            .maybeSingle();
+          if (profile?.id) {
+            const posthog = getPostHogClient();
+            posthog.capture({
+              distinctId: profile.id,
+              event: "subscription_activated",
+              properties: {
+                plan,
+                interval: subscription.items.data[0]?.price.recurring?.interval ?? null,
+                status: subscription.status,
+                stripe_customer_id: customerId,
+              },
+            });
+            await posthog.flush();
+          }
+        }
       } else if (customerId && ["canceled", "unpaid", "incomplete_expired"].includes(subscription.status)) {
         const { error } = await supabase.from("profiles").update({ plan: "free" }).eq("stripe_customer_id", customerId);
         if (error) console.error("[stripe/webhook] échec downgrade plan", error);
@@ -72,6 +95,24 @@ export async function POST(req: NextRequest) {
       if (customerId) {
         const { error } = await supabase.from("profiles").update({ plan: "free" }).eq("stripe_customer_id", customerId);
         if (error) console.error("[stripe/webhook] échec downgrade à l'annulation", error);
+
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("id")
+          .eq("stripe_customer_id", customerId)
+          .maybeSingle();
+        if (profile?.id) {
+          const posthog = getPostHogClient();
+          posthog.capture({
+            distinctId: profile.id,
+            event: "subscription_cancelled",
+            properties: {
+              stripe_customer_id: customerId,
+              status: subscription.status,
+            },
+          });
+          await posthog.flush();
+        }
       }
       break;
     }
