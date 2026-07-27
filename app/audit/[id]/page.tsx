@@ -3,6 +3,11 @@ import { getAuditById } from "@/lib/audit/get-audit";
 import { getCurrentUser } from "@/lib/auth/get-current-user";
 import { ReportView } from "@/components/report/ReportView";
 
+// /r/[slug] is the canonical public URL for a given audit; this route stays
+// crawlable (people do link to it directly) but shouldn't compete with /r/
+// for indexing as duplicate content.
+export const metadata = { robots: { index: false, follow: true } };
+
 export default async function AuditReportPage({
   params,
 }: {

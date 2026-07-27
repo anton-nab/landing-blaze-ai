@@ -12,10 +12,28 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+const TITLE = "LandingBlaze — Audit de landing page par IA";
+const DESCRIPTION =
+  "Collez une URL. En 30 secondes, l'IA note votre landing page sur 100, décortique headline, CTA, copywriting, UX — et vous dit exactement quoi corriger pour convertir plus.";
+
 export const metadata: Metadata = {
-  title: "LandingBlaze — Audit de landing page par IA",
-  description:
-    "Collez une URL. En 30 secondes, l'IA note votre landing page sur 100, décortique headline, CTA, copywriting, UX — et vous dit exactement quoi corriger pour convertir plus.",
+  metadataBase: new URL(SITE_URL),
+  title: { default: TITLE, template: "%s | LandingBlaze" },
+  description: DESCRIPTION,
+  openGraph: {
+    title: TITLE,
+    description: DESCRIPTION,
+    siteName: "LandingBlaze",
+    locale: "fr_FR",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+  },
+  robots: { index: true, follow: true },
 };
 
 export default function RootLayout({
