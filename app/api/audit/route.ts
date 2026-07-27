@@ -9,6 +9,9 @@ import { checkAuditRateLimit } from "@/lib/rate-limit";
 import { getClientIp } from "@/lib/get-client-ip";
 import { captureScreenshot } from "@/lib/screenshot/capture";
 import { uploadScreenshot } from "@/lib/screenshot/upload";
+import { getCurrentUser } from "@/lib/auth/get-current-user";
+import { sendEmail } from "@/lib/resend/send";
+import { reportReadyEmail } from "@/lib/resend/templates";
 
 export const maxDuration = 60; // Vercel: audit > 10s → passer en background function/Inngest si besoin
 
@@ -104,16 +107,33 @@ export async function POST(req: NextRequest) {
 
   auditStore.set(id, { id, url: target.href, report, createdAt: Date.now() });
 
+  let shareSlug: string | null = null;
   const supabase = getSupabaseServiceClient();
   if (supabase) {
-    const { error } = await supabase.from("audits").insert({
-      id,
-      url: target.href,
-      score: report.score,
-      report,
-      screenshot_url: report.screenshotUrl ?? null,
-    });
+    const { data, error } = await supabase
+      .from("audits")
+      .insert({
+        id,
+        url: target.href,
+        score: report.score,
+        report,
+        screenshot_url: report.screenshotUrl ?? null,
+      })
+      .select("share_slug")
+      .single();
     if (error) console.error("[api/audit] Supabase insert failed", error);
+    else shareSlug = data.share_slug;
+  }
+
+  // "Votre audit est prêt" email for signed-in users — awaited (not fire-and-forget)
+  // since serverless functions don't guarantee un-awaited work survives after the
+  // response is sent. sendEmail() itself never throws, only logs on failure.
+  const user = await getCurrentUser();
+  if (user?.email) {
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+    const reportUrl = shareSlug ? `${siteUrl}/r/${shareSlug}` : `${siteUrl}/audit/${id}`;
+    const { subject, html } = reportReadyEmail({ url: target.href, score: report.score, reportUrl });
+    await sendEmail(user.email, subject, html);
   }
 
   return NextResponse.json({ id, report });

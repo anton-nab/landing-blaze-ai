@@ -44,6 +44,7 @@ export function AuthForm({ mode, initialError }: { mode: "login" | "signup"; ini
       setLoading(false);
       if (signUpError) return setError(translateError(signUpError.message));
       if (data.session) {
+        fetch("/api/email/welcome", { method: "POST" }).catch(() => {});
         router.replace("/");
         router.refresh();
         return;
