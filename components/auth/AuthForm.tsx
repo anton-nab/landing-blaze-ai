@@ -7,6 +7,7 @@ import { Loader2 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { Wordmark } from "@/components/landing/Logo";
 import { GoogleIcon } from "./GoogleIcon";
+import posthog from "posthog-js";
 
 const ERROR_MESSAGES: Record<string, string> = {
   "Invalid login credentials": "Email ou mot de passe incorrect.",
@@ -44,23 +45,31 @@ export function AuthForm({ mode, initialError }: { mode: "login" | "signup"; ini
       setLoading(false);
       if (signUpError) return setError(translateError(signUpError.message));
       if (data.session) {
+        posthog.identify(data.session.user.id);
+        posthog.capture("signup_completed", { method: "email" });
         router.replace("/");
         router.refresh();
         return;
       }
+      posthog.capture("signup_completed", { method: "email", email_confirmation_required: true });
       setNotice("Compte créé — vérifiez votre email pour confirmer votre inscription.");
       return;
     }
 
-    const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+    const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({ email, password });
     setLoading(false);
     if (signInError) return setError(translateError(signInError.message));
+    if (signInData.session) {
+      posthog.identify(signInData.session.user.id);
+      posthog.capture("login_completed", { method: "email" });
+    }
     router.replace("/");
     router.refresh();
   }
 
   async function onGoogle() {
     setError("");
+    posthog.capture("google_auth_clicked", { mode });
     await supabase.auth.signInWithOAuth({
       provider: "google",
       options: { redirectTo: `${window.location.origin}/auth/callback` },

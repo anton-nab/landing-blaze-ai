@@ -6,6 +6,7 @@ import { Check, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { PLANS } from "@/lib/landing-content";
 import { focusAuditInput } from "@/lib/focus-audit-input";
+import posthog from "posthog-js";
 
 export function Pricing() {
   const router = useRouter();
@@ -16,6 +17,7 @@ export function Pricing() {
   async function checkout(planKey: "pro" | "agency") {
     setError("");
     setLoadingPlan(planKey);
+    posthog.capture("upgrade_clicked", { plan: planKey, interval: annual ? "annual" : "monthly" });
     try {
       const res = await fetch("/api/stripe/checkout", {
         method: "POST",

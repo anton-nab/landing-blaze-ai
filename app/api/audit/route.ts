@@ -9,6 +9,7 @@ import { checkAuditRateLimit } from "@/lib/rate-limit";
 import { getClientIp } from "@/lib/get-client-ip";
 import { captureScreenshot } from "@/lib/screenshot/capture";
 import { uploadScreenshot } from "@/lib/screenshot/upload";
+import { getPostHogClient } from "@/lib/posthog-server";
 
 export const maxDuration = 60; // Vercel: audit > 10s → passer en background function/Inngest si besoin
 
@@ -115,6 +116,19 @@ export async function POST(req: NextRequest) {
     });
     if (error) console.error("[api/audit] Supabase insert failed", error);
   }
+
+  const posthog = getPostHogClient();
+  posthog.capture({
+    distinctId: `ip:${ip}`,
+    event: "audit_completed",
+    properties: {
+      audit_id: id,
+      url: target.href,
+      score: report.score,
+      grade: report.grade,
+    },
+  });
+  await posthog.flush();
 
   return NextResponse.json({ id, report });
 }

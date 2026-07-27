@@ -8,6 +8,7 @@ import { SCORE_COLOR, type Report } from "@/lib/audit/types";
 import type { Plan } from "@/lib/auth/get-current-user";
 import { BlazeFixSection } from "./BlazeFixSection";
 import { ShareModal } from "./ShareModal";
+import posthog from "posthog-js";
 
 const RING_RADIUS = 84;
 const CIRCUMFERENCE = 2 * Math.PI * RING_RADIUS;
@@ -37,6 +38,16 @@ export function ReportView({
   const [shown, setShown] = useState(0);
   const [ringOffset, setRingOffset] = useState(CIRCUMFERENCE);
   const [shareOpen, setShareOpen] = useState(false);
+
+  useEffect(() => {
+    posthog.capture("audit_viewed", {
+      audit_id: auditId,
+      score: report.score,
+      grade: report.grade,
+      plan,
+    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [auditId]);
 
   useEffect(() => {
     const t0 = performance.now();
@@ -75,14 +86,20 @@ export function ReportView({
           <div className="flex shrink-0 gap-2">
             {isPro ? (
               <button
-                onClick={() => window.print()}
+                onClick={() => {
+                  posthog.capture("pdf_exported", { audit_id: auditId, score: report.score });
+                  window.print();
+                }}
                 className="hidden whitespace-nowrap rounded-[8px] border border-white/10 bg-white/5 px-3.5 py-2 text-[13px] font-semibold text-[#C7CBE8] hover:bg-white/10 sm:inline-flex"
               >
                 Exporter en PDF
               </button>
             ) : null}
             <button
-              onClick={() => setShareOpen(true)}
+              onClick={() => {
+                posthog.capture("share_clicked", { audit_id: auditId, score: report.score });
+                setShareOpen(true);
+              }}
               className="inline-flex items-center gap-[7px] whitespace-nowrap rounded-[8px] border border-white/10 bg-white/5 px-3.5 py-2 text-[13px] font-semibold text-[#C7CBE8] hover:bg-white/10"
             >
               <Share2 className="h-[13px] w-[13px]" strokeWidth={2.2} />

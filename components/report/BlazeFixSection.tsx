@@ -4,12 +4,14 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Lock, Sparkles, Loader2 } from "lucide-react";
 import type { BlazeFix, BlazeFixRewrite } from "@/lib/blaze-fix/types";
+import posthog from "posthog-js";
 
 function RewriteCard({ label, rewrite }: { label: string; rewrite: BlazeFixRewrite }) {
   const [copied, setCopied] = useState(false);
 
   function copy() {
     navigator.clipboard?.writeText(rewrite.after).catch(() => {});
+    posthog.capture("blaze_fix_copy_clicked", { section: label });
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   }
@@ -99,6 +101,7 @@ export function BlazeFixSection({ auditId, isPro }: { auditId: string; isPro: bo
   async function generate() {
     setLoading(true);
     setError("");
+    posthog.capture("blaze_fix_generated", { audit_id: auditId });
     try {
       const res = await fetch("/api/blaze-fix", {
         method: "POST",

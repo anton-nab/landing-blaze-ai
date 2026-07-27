@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { AUDIT_INPUT_ID } from "@/lib/focus-audit-input";
+import posthog from "posthog-js";
 
 function validateUrl(raw: string): { url: string } | { error: string } {
   const trimmed = raw.trim();
@@ -31,6 +32,7 @@ export function Hero() {
       return;
     }
     setErr("");
+    posthog.capture("audit_submitted", { url: result.url });
     router.push(`/audit/loading?url=${encodeURIComponent(result.url)}`);
   }
 
