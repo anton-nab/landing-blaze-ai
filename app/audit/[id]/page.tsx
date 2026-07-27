@@ -15,8 +15,15 @@ export default async function AuditReportPage({
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
   const shareUrl = audit.shareSlug ? `${siteUrl}/r/${audit.shareSlug}` : `${siteUrl}/audit/${audit.id}`;
+  const ogImageUrl = audit.shareSlug ? `${siteUrl}/r/${audit.shareSlug}/opengraph-image` : undefined;
 
   return (
-    <ReportView report={audit.report} shareUrl={shareUrl} plan={user?.plan ?? "free"} auditId={audit.id} />
+    <ReportView
+      report={audit.report}
+      shareUrl={shareUrl}
+      plan={user?.plan ?? "free"}
+      auditId={audit.id}
+      ogImageUrl={ogImageUrl}
+    />
   );
 }

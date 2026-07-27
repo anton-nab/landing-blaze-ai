@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { SCORE_COLOR, type Report } from "@/lib/audit/types";
 import type { Plan } from "@/lib/auth/get-current-user";
 import { BlazeFixSection } from "./BlazeFixSection";
+import { ShareModal } from "./ShareModal";
 
 const RING_RADIUS = 84;
 const CIRCUMFERENCE = 2 * Math.PI * RING_RADIUS;
@@ -24,16 +25,18 @@ export function ReportView({
   shareUrl,
   plan,
   auditId,
+  ogImageUrl,
 }: {
   report: Report;
   shareUrl: string;
   plan: Plan;
   auditId: string;
+  ogImageUrl?: string;
 }) {
   const isPro = plan === "pro" || plan === "agency";
   const [shown, setShown] = useState(0);
   const [ringOffset, setRingOffset] = useState(CIRCUMFERENCE);
-  const [copied, setCopied] = useState(false);
+  const [shareOpen, setShareOpen] = useState(false);
 
   useEffect(() => {
     const t0 = performance.now();
@@ -53,12 +56,6 @@ export function ReportView({
   const strengths = report.categories.filter((c) => c.score >= 75).length;
   const warnings = report.categories.filter((c) => c.score >= 55 && c.score < 75).length;
   const criticals = report.categories.filter((c) => c.score < 55).length;
-
-  function copyLink() {
-    navigator.clipboard?.writeText(shareUrl).catch(() => {});
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2200);
-  }
 
   return (
     <>
@@ -85,11 +82,11 @@ export function ReportView({
               </button>
             ) : null}
             <button
-              onClick={copyLink}
+              onClick={() => setShareOpen(true)}
               className="inline-flex items-center gap-[7px] whitespace-nowrap rounded-[8px] border border-white/10 bg-white/5 px-3.5 py-2 text-[13px] font-semibold text-[#C7CBE8] hover:bg-white/10"
             >
               <Share2 className="h-[13px] w-[13px]" strokeWidth={2.2} />
-              {copied ? "Lien copié ✓" : "Partager"}
+              Partager
             </button>
             <Link
               href="/"
@@ -337,6 +334,15 @@ export function ReportView({
 
         <BlazeFixSection auditId={auditId} isPro={isPro} />
       </div>
+
+      {shareOpen ? (
+        <ShareModal
+          onClose={() => setShareOpen(false)}
+          shareUrl={shareUrl}
+          ogImageUrl={ogImageUrl}
+          score={report.score}
+        />
+      ) : null}
     </>
   );
 }

@@ -43,9 +43,17 @@ export default async function SharedReportPage({
   if (!audit) notFound();
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
-  const shareUrl = `${siteUrl}/r/${audit.shareSlug ?? slug}`;
+  const resolvedSlug = audit.shareSlug ?? slug;
+  const shareUrl = `${siteUrl}/r/${resolvedSlug}`;
+  const ogImageUrl = `${siteUrl}/r/${resolvedSlug}/opengraph-image`;
 
   return (
-    <ReportView report={audit.report} shareUrl={shareUrl} plan={user?.plan ?? "free"} auditId={audit.id} />
+    <ReportView
+      report={audit.report}
+      shareUrl={shareUrl}
+      plan={user?.plan ?? "free"}
+      auditId={audit.id}
+      ogImageUrl={ogImageUrl}
+    />
   );
 }
