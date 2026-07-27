@@ -6,6 +6,7 @@ import { Check, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { PLANS } from "@/lib/landing-content";
 import { focusAuditInput } from "@/lib/focus-audit-input";
+import { track } from "@/lib/posthog/track";
 
 export function Pricing() {
   const router = useRouter();
@@ -33,6 +34,7 @@ export function Pricing() {
         setLoadingPlan(null);
         return;
       }
+      track("checkout_started", { plan: planKey, interval: annual ? "annual" : "monthly" });
       window.location.assign(data.url);
     } catch {
       setError("Une erreur est survenue. Réessayez.");

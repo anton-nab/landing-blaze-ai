@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { Loader2 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { Wordmark } from "@/components/landing/Logo";
+import { track, identifyUser } from "@/lib/posthog/track";
 import { GoogleIcon } from "./GoogleIcon";
 
 const ERROR_MESSAGES: Record<string, string> = {
@@ -45,6 +46,8 @@ export function AuthForm({ mode, initialError }: { mode: "login" | "signup"; ini
       if (signUpError) return setError(translateError(signUpError.message));
       if (data.session) {
         fetch("/api/email/welcome", { method: "POST" }).catch(() => {});
+        identifyUser(data.session.user.id, { email: data.session.user.email });
+        track("signup_completed");
         router.replace("/");
         router.refresh();
         return;
@@ -53,9 +56,10 @@ export function AuthForm({ mode, initialError }: { mode: "login" | "signup"; ini
       return;
     }
 
-    const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+    const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({ email, password });
     setLoading(false);
     if (signInError) return setError(translateError(signInError.message));
+    identifyUser(signInData.user.id, { email: signInData.user.email });
     router.replace("/");
     router.refresh();
   }

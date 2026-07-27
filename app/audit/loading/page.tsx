@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Loader2, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { LOADING_STEPS } from "@/lib/landing-content";
+import { track } from "@/lib/posthog/track";
 
 const STEP_MS = 800;
 
@@ -53,6 +54,7 @@ function LoadingContent() {
         if (status >= 400) {
           throw new Error(data.error || "Une erreur est survenue.");
         }
+        track("audit_completed", { url, score: data.report?.score });
         setStep(LOADING_STEPS.length);
         router.replace(`/audit/${data.id}`);
       })

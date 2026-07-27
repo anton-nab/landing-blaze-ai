@@ -3,6 +3,7 @@ import type Stripe from "stripe";
 import { getStripeClient } from "@/lib/stripe/client";
 import { planFromPriceId } from "@/lib/stripe/plans";
 import { getSupabaseServiceClient } from "@/lib/supabase/server";
+import { getPosthogServerClient } from "@/lib/posthog/server";
 
 function customerIdOf(customer: string | Stripe.Customer | Stripe.DeletedCustomer | null): string | null {
   if (!customer) return null;
@@ -45,6 +46,15 @@ export async function POST(req: NextRequest) {
           .update({ stripe_customer_id: customerId })
           .eq("id", userId);
         if (error) console.error("[stripe/webhook] échec liaison stripe_customer_id", error);
+      }
+      if (userId) {
+        // client_reference_id is the Supabase user id — same id posthog-js used for
+        // identify() client-side, so this event joins the same funnel person.
+        getPosthogServerClient()?.capture({
+          distinctId: userId,
+          event: "payment_completed",
+          properties: { amount_total: session.amount_total, currency: session.currency },
+        });
       }
       break;
     }
