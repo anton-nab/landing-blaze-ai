@@ -70,3 +70,37 @@ export function reportReadyEmail(input: { url: string; score: number; reportUrl:
     `),
   };
 }
+
+export function scoreEvolutionEmail(input: {
+  url: string;
+  previousScore: number;
+  newScore: number;
+  reportUrl: string;
+}): { subject: string; html: string } {
+  let hostname = input.url;
+  try {
+    hostname = new URL(input.url).hostname;
+  } catch {
+    // keep raw url as fallback
+  }
+
+  const delta = input.newScore - input.previousScore;
+  const up = delta > 0;
+  const deltaColor = up ? "#5FA98C" : "#D9667A";
+  const deltaLabel = `${up ? "+" : ""}${delta}`;
+
+  return {
+    subject: `${hostname} : ${input.previousScore} → ${input.newScore} (${deltaLabel})`,
+    html: emailShell(`
+      <h1 style="color:#ffffff;font-size:22px;font-weight:700;letter-spacing:-.02em;margin:0 0 12px;">Votre score a évolué.</h1>
+      <p style="color:#C7CBE8;font-size:14.5px;line-height:1.6;margin:0 0 4px;">
+        <span style="font-family:ui-monospace,monospace;color:#9599C0;">${hostname}</span>
+      </p>
+      <div style="font-family:ui-monospace,monospace;color:#ffffff;font-size:40px;font-weight:600;margin:8px 0 20px;">
+        ${input.previousScore} → ${input.newScore}
+        <span style="color:${deltaColor};font-size:18px;"> (${deltaLabel})</span>
+      </div>
+      ${button("Voir le rapport complet →", input.reportUrl)}
+    `),
+  };
+}

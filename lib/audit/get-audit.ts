@@ -47,9 +47,11 @@ export async function getAuditBySlug(slug: string): Promise<StoredAudit | null> 
   };
 }
 
-export async function listRecentAudits(limit = 8): Promise<StoredAudit[]> {
-  const local = [...auditStore.values()].sort((a, b) => b.createdAt - a.createdAt);
-  if (local.length > 0) return local.slice(0, limit);
+// userId is required — audits are personal history, not a global feed.
+// (The dev-only in-memory store never tracked ownership, so it's skipped
+// entirely once a real userId is involved; it only ever mattered pre-Supabase.)
+export async function listRecentAudits(userId: string | undefined, limit = 8): Promise<StoredAudit[]> {
+  if (!userId) return [];
 
   const supabase = getSupabaseServiceClient();
   if (!supabase) return [];
@@ -57,6 +59,7 @@ export async function listRecentAudits(limit = 8): Promise<StoredAudit[]> {
   const { data, error } = await supabase
     .from("audits")
     .select("id, url, report, created_at, share_slug")
+    .eq("user_id", userId)
     .order("created_at", { ascending: false })
     .limit(limit);
 

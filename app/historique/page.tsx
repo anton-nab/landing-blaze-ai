@@ -2,11 +2,13 @@ import Link from "next/link";
 import { SecondaryTopBar } from "@/components/landing/SecondaryTopBar";
 import { listRecentAudits } from "@/lib/audit/get-audit";
 import { SCORE_COLOR } from "@/lib/audit/types";
+import { getCurrentUser } from "@/lib/auth/get-current-user";
 
 export const metadata = { title: "Historique — LandingBlaze", robots: { index: false, follow: false } };
 
 export default async function HistoriquePage() {
-  const audits = await listRecentAudits();
+  const user = await getCurrentUser();
+  const audits = await listRecentAudits(user?.id);
 
   return (
     <>

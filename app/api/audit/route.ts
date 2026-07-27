@@ -86,6 +86,7 @@ export async function POST(req: NextRequest) {
   }
 
   const extracted = extractSignals(html, target.href);
+  const user = await getCurrentUser();
 
   let report;
   try {
@@ -114,6 +115,7 @@ export async function POST(req: NextRequest) {
       .from("audits")
       .insert({
         id,
+        user_id: user?.id ?? null,
         url: target.href,
         score: report.score,
         report,
@@ -128,7 +130,6 @@ export async function POST(req: NextRequest) {
   // "Votre audit est prêt" email for signed-in users — awaited (not fire-and-forget)
   // since serverless functions don't guarantee un-awaited work survives after the
   // response is sent. sendEmail() itself never throws, only logs on failure.
-  const user = await getCurrentUser();
   if (user?.email) {
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
     const reportUrl = shareSlug ? `${siteUrl}/r/${shareSlug}` : `${siteUrl}/audit/${id}`;
