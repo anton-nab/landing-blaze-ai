@@ -73,20 +73,24 @@ export async function POST(req: NextRequest) {
 
   // Le quota ne se consomme qu'ici, juste avant l'étape coûteuse (appel IA) —
   // une URL invalide, bloquée (SSRF) ou inaccessible ne compte pas dans le quota.
-  const ip = getClientIp(req);
-  const rateLimit = await checkAuditRateLimit(`ip:${ip}`);
-  if (!rateLimit.success) {
-    return NextResponse.json(
-      {
-        error:
-          "Vous avez atteint votre quota d'audits gratuits (1/mois). Passez en Pro pour des audits illimités.",
-      },
-      { status: 429, headers: { "Retry-After": String(Math.ceil((rateLimit.resetAt - Date.now()) / 1000)) } },
-    );
+  // Les comptes Pro/Agency ont des audits illimités et ne sont pas soumis au
+  // rate-limit par IP (partagé avec d'autres utilisateurs de la même IP).
+  const user = await getCurrentUser();
+  if (user?.plan !== "pro" && user?.plan !== "agency") {
+    const ip = getClientIp(req);
+    const rateLimit = await checkAuditRateLimit(`ip:${ip}`);
+    if (!rateLimit.success) {
+      return NextResponse.json(
+        {
+          error:
+            "Vous avez atteint votre quota d'audits gratuits (1/mois). Passez en Pro pour des audits illimités.",
+        },
+        { status: 429, headers: { "Retry-After": String(Math.ceil((rateLimit.resetAt - Date.now()) / 1000)) } },
+      );
+    }
   }
 
   const extracted = extractSignals(html, target.href);
-  const user = await getCurrentUser();
 
   let report;
   try {
